@@ -21,6 +21,7 @@ The entire game lives in a single file: `game.js`. The canvas is 800×600 (`W`/`
 - `Asteroid` — size 1/2/3 (small/medium/large); `split()` returns two size-1 children; polygon shape is randomized at construction
 - `Ship` — handles thrust/rotation/shooting; `invincible` timer prevents collisions after respawn; `dead` flag suspends updates/drawing
 - `Particle` — short-lived explosion streak, fades by alpha
+- `PowerUp` — 5-way shot pickup. The ship always fires a 3-bullet fan (spread `TRIPLE_SPREAD`). The pickup drops at a destroyed asteroid's position with `TRIPLE_DROP_CHANCE`, at most once per level (`tripleSpawned`, reset in `initGame()` and `nextLevel()`). Expires after `POWERUP_TTL`. Collecting it sets `ship.tripleShot = TRIPLE_DURATION` (10 s); `Ship.tryShoot()` then fires a 5-bullet fan. Effect is lost on death, kept across levels.
 
 **Game loop** — `requestAnimationFrame`-based `loop(ts)`. Delta time `dt` is capped at 50 ms (0.05 s) to prevent tunneling after tab-switch.
 
